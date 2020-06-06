@@ -1,0 +1,73 @@
+{
+   // See https://go.microsoft.com/fwlink/?LinkId=733558
+   // for the documentation about the tasks.json format
+   "version": "2.0.0",
+   "tasks": [
+      {
+         "label": "Compile",
+         "type": "shell",
+         "command": "vsim",
+         "args": [
+            "-batch",
+            "-do",
+            "do Comp.do; quit -f"
+         ],
+         "options": {
+            "cwd": "${workspaceFolder}/sim"
+         },
+         "presentation": {
+            "echo": true,
+            "reveal": "silent",
+            "focus": true,
+            "panel": "shared",
+            "showReuseMessage": true, 
+            "clear": false
+         },
+         "problemMatcher": [
+            {
+               "fileLocation": [
+                  "relative",
+                  "${workspaceFolder}/sim"
+               ],
+               "owner": "vhdl",
+               "pattern": [{
+                  "regexp": "^#+\\s+\\*+\\s+(Error|Warning)[:|\\s+\\(\\.*\\)]\\s*(.*)\\s*\\((\\d+)\\):\\s+(.*)$",
+                  "file": 2,
+                  "line": 3,
+                  "severity": 1,
+                  "message": 4
+               }]
+            }
+         ],
+         "group": {
+            "kind": "build",
+            "isDefault": true
+         }
+      },
+      {
+         "label": "Simulate",
+         "type": "shell",
+         "command": "vsim",
+         "args": [
+            "-do",
+            "Sim.do"
+         ],
+         "dependsOn": "Compile",
+         "options": {
+            "cwd": "sim"
+         },
+         "problemMatcher": [],
+         "group": {
+            "kind": "build",
+            "isDefault": true
+         },
+         "presentation": {
+            "reveal": "never",
+            "focus": false,
+            "panel": "shared",
+            "showReuseMessage": true,
+            "clear": false
+         },
+      }
+   ]
+}
